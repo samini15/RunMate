@@ -141,4 +141,5 @@ mapsplatform-secrets-plugin = { id = "com.google.android.libraries.mapsplatform.
 
 runmate-android-application = { id = "runmate.android.application", version = "unspecified" }
 runmate-android-application-compose = { id = "runmate.android.application.compose", version = "unspecified" }
+runmate-android-library = { id = "runmate.android.library", version = "unspecified" }
 
