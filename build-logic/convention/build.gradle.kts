@@ -38,5 +38,9 @@ gradlePlugin {
             id = "runmate.android.room"
             implementationClass = "AndroidRoomConventionPlugin"
         }
+        register("jvmLibrary") {
+            id = "runmate.jvm.library"
+            implementationClass = "JvmLibraryConventionPlugin"
+        }
     }
 }
