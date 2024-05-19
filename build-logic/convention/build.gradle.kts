@@ -42,5 +42,9 @@ gradlePlugin {
             id = "runmate.jvm.library"
             implementationClass = "JvmLibraryConventionPlugin"
         }
+        register("jvmKtor") {
+            id = "runmate.jvm.ktor"
+            implementationClass = "JvmKtorConventionPlugin"
+        }
     }
 }

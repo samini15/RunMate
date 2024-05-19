@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.runmate.android.application)
     alias(libs.plugins.runmate.android.application.compose)
+    alias(libs.plugins.runmate.jvm.ktor)
     alias(libs.plugins.mapsplatform.secrets.plugin)
 }
 
