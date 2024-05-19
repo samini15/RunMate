@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
 
     alias(libs.plugins.runmate.android.library)
+    alias(libs.plugins.runmate.android.feature.ui)
 }
 
 android {
