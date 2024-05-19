@@ -179,3 +179,4 @@ runmate-android-application-compose = { id = "runmate.android.application.compos
 runmate-android-library = { id = "runmate.android.library", version = "unspecified" }
 runmate-android-library-compose = { id = "runmate.android.library.compose", version = "unspecified" }
 runmate-android-feature-ui = { id = "runmate.android.feature.ui", version = "unspecified" }
+runmate-android-room = { id = "runmate.android.room", version = "unspecified" }
