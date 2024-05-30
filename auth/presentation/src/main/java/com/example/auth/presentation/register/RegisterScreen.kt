@@ -129,7 +129,6 @@ private fun RegisterScreen(
                 placeholder = stringResource(id = R.string.password),
                 title = stringResource(id = R.string.password),
                 modifier = Modifier.fillMaxWidth(),
-                additionalInfo = stringResource(id = R.string.must_be_a_valid_email),
                 keyboardType = KeyboardType.Password,
                 isPasswordField = true,
             )
@@ -164,7 +163,7 @@ private fun RegisterScreen(
             )
             // endregion
 
-            Spacer(modifier = Modifier.height(spacing.spaceLarge))
+            Spacer(modifier = Modifier.height(spacing.spaceExtraLarge))
 
             RunmateActionButton(
                 text = stringResource(id = R.string.register),
