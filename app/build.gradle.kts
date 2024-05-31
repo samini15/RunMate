@@ -51,6 +51,9 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
 
+    // Koin - Dependency Injection
+    implementation(libs.bundles.koin)
+
     // Coil
     implementation(libs.coil.compose)
 

@@ -14,4 +14,7 @@ dependencies {
     implementation(projects.auth.domain)
     implementation(projects.core.domain)
     implementation(projects.core.data)
+
+    // Koin - Dependency Injection
+    implementation(libs.bundles.koin)
 }
