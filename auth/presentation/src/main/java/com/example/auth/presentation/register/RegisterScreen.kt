@@ -37,7 +37,6 @@ import com.example.core.presentation.designsystem.CrossIcon
 import com.example.core.presentation.designsystem.EmailIcon
 import com.example.core.presentation.designsystem.LocalSpacing
 import com.example.core.presentation.designsystem.Poppins
-import com.example.core.presentation.designsystem.RunmateGray
 import com.example.core.presentation.designsystem.RunmateGreen
 import com.example.core.presentation.designsystem.RunmateTheme
 import com.example.core.presentation.designsystem.components.GradientBackground
@@ -71,7 +70,13 @@ fun RegisterScreenRoot(
 
     RegisterScreen(
         state = viewModel.state,
-        onAction = viewModel::onAction
+        onAction = { action ->
+            when (action) {
+                RegisterAction.OnLoginClick -> onSignInClick()
+                else -> Unit
+            }
+            viewModel.onAction(action)
+        }
     )
 }
 
@@ -99,7 +104,7 @@ private fun RegisterScreen(
                 withStyle(
                     style = SpanStyle(
                         fontFamily = Poppins,
-                        color = RunmateGray
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 ) {
                     append(stringResource(id = R.string.already_have_an_account) + " ")
