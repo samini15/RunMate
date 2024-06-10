@@ -108,6 +108,7 @@ private fun LoginScreen(
                 state = state.email,
                 startIcon = EmailIcon,
                 placeholder = stringResource(id = R.string.example_email),
+                keyboardType = KeyboardType.Email,
                 title = stringResource(id = R.string.email),
                 modifier = Modifier.fillMaxWidth()
             )
@@ -129,7 +130,7 @@ private fun LoginScreen(
             RunmateActionButton(
                 text = stringResource(id = R.string.login),
                 isLoading = state.isLoggingIn,
-                enabled = state.canLogin
+                enabled = state.canLogin && !state.isLoggingIn
             ) {
                 onAction(LoginAction.OnLoginClick)
             }

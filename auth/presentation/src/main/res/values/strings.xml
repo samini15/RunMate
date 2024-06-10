@@ -23,4 +23,5 @@
     <string name="runmate_welcome_text">Welcome to the ultimate running companion! Track and analyze your runs.</string>
     <string name="dont_have_an_account">Not yet an account?</string>
     <string name="login_successful">You are successfully logged in.</string>
+    <string name="error_email_password_incorrect">The email or password is incorrect!</string>
 </resources>

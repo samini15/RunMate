@@ -1,5 +1,6 @@
 package com.example.runmate.navigation
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -16,12 +17,13 @@ fun NavigationRoot(
 ) {
     NavHost(navController = navController, startDestination = Route.AUTH) {
         authGraph(navController)
+        runGraph(navController)
     }
 }
 
 private fun NavGraphBuilder.authGraph(navController: NavHostController) {
     navigation(startDestination = Route.WELCOME, route = Route.AUTH) {
-        composable(route = "welcome") {
+        composable(route = Route.WELCOME) {
             WelcomeScreenRoot(
                 onSignUpClick = {
                     navController.navigate(Route.REGISTER)
@@ -66,6 +68,14 @@ private fun NavGraphBuilder.authGraph(navController: NavHostController) {
                     }
                 }
             )
+        }
+    }
+}
+
+private fun NavGraphBuilder.runGraph(navController: NavHostController) {
+    navigation(startDestination = Route.RUN_OVERVIEW, route = Route.RUN) {
+        composable(route = Route.RUN_OVERVIEW) {
+            Text(text = "Run overview screen!")
         }
     }
 }
