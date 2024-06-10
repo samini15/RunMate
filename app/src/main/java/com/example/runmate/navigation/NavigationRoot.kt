@@ -13,9 +13,10 @@ import com.example.auth.presentation.welcome.WelcomeScreenRoot
 
 @Composable
 fun NavigationRoot(
-    navController: NavHostController
+    navController: NavHostController,
+    isLoggedIn: Boolean
 ) {
-    NavHost(navController = navController, startDestination = Route.AUTH) {
+    NavHost(navController = navController, startDestination = if (isLoggedIn) Route.RUN else Route.AUTH) {
         authGraph(navController)
         runGraph(navController)
     }

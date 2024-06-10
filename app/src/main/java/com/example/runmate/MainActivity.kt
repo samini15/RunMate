@@ -11,14 +11,24 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
 import com.example.core.presentation.designsystem.RunmateTheme
 import com.example.runmate.navigation.NavigationRoot
 import com.example.runmate.ui.theme.RunMateTheme
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
+
+    private val viewModel by viewModel<MainViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen().apply {
+            setKeepOnScreenCondition {
+                // Show the splash screen while we are checking
+                viewModel.state.isCheckingAuth
+            }
+        }
         enableEdgeToEdge()
         setContent {
             RunmateTheme {
@@ -27,8 +37,13 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val navController = rememberNavController()
-                    NavigationRoot(navController = navController)
+                    if (!viewModel.state.isCheckingAuth) {
+                        val navController = rememberNavController()
+                        NavigationRoot(
+                            navController = navController,
+                            isLoggedIn = viewModel.state.isLoggedIn
+                        )
+                    }
                 }
             }
         }
