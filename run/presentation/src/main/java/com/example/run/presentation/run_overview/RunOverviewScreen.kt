@@ -1,6 +1,6 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 
-package com.example.run.presentation
+package com.example.run.presentation.run_overview
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,13 +22,23 @@ import com.example.core.presentation.designsystem.components.RunmateFAB
 import com.example.core.presentation.designsystem.components.RunmateScaffold
 import com.example.core.presentation.designsystem.components.RunmateToolbar
 import com.example.core.presentation.designsystem.components.util.DropDownItem
+import com.example.run.presentation.R
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun RunOverviewScreenRoot(
+    onStartRunClick: () -> Unit,
     viewModel: RunOverviewViewModel = koinViewModel()
 ) {
-    RunOverviewScreen(onAction = viewModel::onAction)
+    RunOverviewScreen(
+        onAction = { action ->
+            when (action) {
+                RunOverviewAction.OnStartClick -> onStartRunClick()
+                else -> Unit
+            }
+            viewModel.onAction(action)
+        }
+    )
 }
 
 @Composable

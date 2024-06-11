@@ -12,4 +12,5 @@ object Route {
     const val RUN = "run"
 
     const val RUN_OVERVIEW = "run_overview"
+    const val ACTIVE_RUN = "active_run"
 }
