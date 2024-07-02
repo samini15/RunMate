@@ -87,6 +87,8 @@ fun TrackerMap(
             zoomControlsEnabled = false
         )
     ) {
+        RunmatePolylines(locations = locations)
+
         if (!isRunFinished && currentLocation != null) {
             MarkerComposable(currentLocation, state = markerState) {
                 Box(
