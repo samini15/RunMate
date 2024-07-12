@@ -25,6 +25,7 @@ import com.example.core.presentation.designsystem.LocalSpacing
 import com.example.core.presentation.designsystem.RunmateTheme
 import com.example.core.presentation.designsystem.StartIcon
 import com.example.core.presentation.designsystem.StopIcon
+import com.example.core.presentation.designsystem.components.RunmateActionButton
 import com.example.core.presentation.designsystem.components.RunmateDialog
 import com.example.core.presentation.designsystem.components.RunmateFAB
 import com.example.core.presentation.designsystem.components.RunmateOutlinedActionButton
@@ -164,6 +165,24 @@ private fun ActiveRunScreen(
                 runData = state.runData
             )
         }
+    }
+
+    if (!state.shouldTrack && state.hasStartedRunning) {
+        RunmateDialog(
+            title = stringResource(id = R.string.running_is_paused),
+            description = stringResource(id = R.string.resume_or_finish_run),
+            onDismiss = { onAction(ActiveRunAction.OnResumeRunClick) },
+            primaryButton = {
+                RunmateActionButton(modifier = Modifier.weight(1f), text = stringResource(id = R.string.resume), isLoading = false) {
+                    onAction(ActiveRunAction.OnResumeRunClick)
+                }
+            },
+            secondaryButton = {
+                RunmateOutlinedActionButton(modifier = Modifier.weight(1f), text = stringResource(id = R.string.finish), isLoading = state.isSavingRun) {
+                    onAction(ActiveRunAction.OnFinishRunClick)
+                }
+            }
+        )
     }
 
     if (state.showLocationRationale || state.showNotificationRationale) {

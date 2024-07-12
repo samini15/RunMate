@@ -14,4 +14,8 @@
     <string name="location_rationale">In order to track your location, your permission is required.</string>
     <string name="notification_rationale">In order to display the current time as a notification, your permission is required.</string>
     <string name="okay">Ok</string>
+    <string name="running_is_paused">Running is paused</string>
+    <string name="resume_or_finish_run">Do you want to resume or finish the workout?</string>
+    <string name="resume">Resume</string>
+    <string name="finish">Finish</string>
 </resources>
