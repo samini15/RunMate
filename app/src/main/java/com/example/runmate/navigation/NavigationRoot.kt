@@ -1,16 +1,20 @@
 package com.example.runmate.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.navDeepLink
 import com.example.auth.presentation.login.LoginScreenRoot
 import com.example.auth.presentation.register.RegisterScreenRoot
 import com.example.auth.presentation.welcome.WelcomeScreenRoot
 import com.example.run.presentation.active_run.ActiveRunScreenRoot
+import com.example.run.presentation.active_run.service.ActiveRunService
 import com.example.run.presentation.run_overview.RunOverviewScreenRoot
+import com.example.runmate.MainActivity
 
 @Composable
 fun NavigationRoot(
@@ -83,8 +87,24 @@ private fun NavGraphBuilder.runGraph(navController: NavHostController) {
                 }
             )
         }
-        composable(route = Route.ACTIVE_RUN) {
-            ActiveRunScreenRoot()
+        composable(
+            route = Route.ACTIVE_RUN,
+            deepLinks = listOf(
+                navDeepLink {
+                    uriPattern = "runmate://active_run"
+                }
+            )
+        ) {
+            val context = LocalContext.current
+            ActiveRunScreenRoot(
+                onServiceToggle = { shouldServiceRun ->
+                    if (shouldServiceRun) {
+                        context.startService(ActiveRunService.createStartIntent(context, activityClass = MainActivity::class.java))
+                    } else {
+                        context.startService(ActiveRunService.createStopIntent(context))
+                    }
+                }
+            )
         }
     }
 }

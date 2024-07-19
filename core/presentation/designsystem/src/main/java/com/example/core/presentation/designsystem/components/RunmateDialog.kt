@@ -77,6 +77,12 @@ private fun RunmateDialogPreview() {
             title = "df",
             description = "Lorem ipsum",
             onDismiss = { /*TODO*/ },
-            primaryButton = { /*TODO*/ })
+            primaryButton = {
+                RunmateActionButton(modifier = Modifier.weight(1f), text = "Resume", isLoading = false) {}
+            },
+            secondaryButton = {
+                RunmateOutlinedActionButton(modifier = Modifier.weight(1f), text = "Finish", isLoading = false) {}
+            }
+        )
     }
 }
