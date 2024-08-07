@@ -21,6 +21,13 @@ fun Double.toFormattedKm(): String {
     return "${distanceKm.roundToDecimals(1)} km"
 }
 
+fun Double.toFormattedKmh(): String {
+    return "${roundToDecimals(1)} km/h"
+}
+
+fun Int.toFormattedMeters(): String {
+    return "$this m"
+}
 @SuppressLint("DefaultLocale")
 fun Duration.toFormattedPace(distanceMeters: Double): String {
     val distanceKm = distanceMeters / 1000.0

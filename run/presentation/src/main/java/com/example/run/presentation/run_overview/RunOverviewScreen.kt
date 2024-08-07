@@ -43,6 +43,7 @@ fun RunOverviewScreenRoot(
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun RunOverviewScreen(
     onAction: (RunOverviewAction) -> Unit
