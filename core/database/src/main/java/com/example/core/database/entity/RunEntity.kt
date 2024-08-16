@@ -17,6 +17,5 @@ data class RunEntity(
     val maxSpeedKmh: Double,
     val avgSpeedKm: Double,
     val totalElevationMeters: Int,
-    val mapPictureUrl: String,
-
+    val mapPictureUrl: String?,
 )
