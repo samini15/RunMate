@@ -1,6 +1,5 @@
 package com.example.core.data.run
 
-import android.util.Log
 import com.example.core.database.dao.RunPendingSyncDao
 import com.example.core.database.mappers.toRun
 import com.example.core.domain.SessionStorage
@@ -9,6 +8,7 @@ import com.example.core.domain.run.RemoteRunDataSource
 import com.example.core.domain.run.Run
 import com.example.core.domain.run.RunId
 import com.example.core.domain.run.RunRepository
+import com.example.core.domain.run.SyncRunScheduler
 import com.example.core.domain.util.DataError
 import com.example.core.domain.util.EmptyResult
 import com.example.core.domain.util.Result
@@ -25,6 +25,7 @@ class OfflineFirstRunRepository(
     private val localDataSource: LocalRunDataSource,
     private val remoteDataSource: RemoteRunDataSource,
     private val runPendingSyncDao: RunPendingSyncDao,
+    private val syncRunScheduler: SyncRunScheduler,
     private val sessionStorage: SessionStorage,
     private val applicationScope: CoroutineScope
 ): RunRepository {
@@ -56,6 +57,9 @@ class OfflineFirstRunRepository(
         return when (val remoteResult = remoteDataSource.postRun(runWithId, mapPicture)) {
             is Result.Failure -> {
                 Timber.tag("OfflineFirstRunRepository").d("upsertRun: %s", remoteResult.error)
+                applicationScope.launch {
+                    syncRunScheduler.scheduleSync(SyncRunScheduler.SyncType.CreateRun(runWithId, mapPicture))
+                }.join()
                 Result.Success(Unit)
             }
             is Result.Success -> {
@@ -83,6 +87,12 @@ class OfflineFirstRunRepository(
         val remoteResult = applicationScope.async {
             remoteDataSource.deleteRun(id)
         }.await()
+
+        if (remoteResult is Result.Failure) {
+            applicationScope.launch {
+                syncRunScheduler.scheduleSync(SyncRunScheduler.SyncType.DeleteRun(id))
+            }.join()
+        }
     }
 
     override suspend fun syncPendingRuns() {
