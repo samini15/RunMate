@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.domain.run.RunRepository
+import com.example.core.domain.run.SyncRunScheduler
 import com.example.run.presentation.run_overview.model.toRunUI
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
