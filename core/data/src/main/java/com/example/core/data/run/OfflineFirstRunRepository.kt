@@ -1,5 +1,6 @@
 package com.example.core.data.run
 
+import com.example.core.data.networking.get
 import com.example.core.database.dao.RunPendingSyncDao
 import com.example.core.database.mappers.toRun
 import com.example.core.domain.SessionStorage
@@ -13,6 +14,10 @@ import com.example.core.domain.util.DataError
 import com.example.core.domain.util.EmptyResult
 import com.example.core.domain.util.Result
 import com.example.core.domain.util.asEmptyDataResult
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerAuthProvider
+import io.ktor.client.plugins.plugin
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -27,6 +32,7 @@ class OfflineFirstRunRepository(
     private val runPendingSyncDao: RunPendingSyncDao,
     private val syncRunScheduler: SyncRunScheduler,
     private val sessionStorage: SessionStorage,
+    private val client: HttpClient,
     private val applicationScope: CoroutineScope
 ): RunRepository {
 
@@ -95,6 +101,8 @@ class OfflineFirstRunRepository(
         }
     }
 
+    override suspend fun deleteAllRuns() = localDataSource.deleteAllRuns()
+
     override suspend fun syncPendingRuns() {
         withContext(Dispatchers.IO) {
             val userId = sessionStorage.get()?.userId ?: return@withContext
@@ -142,5 +150,18 @@ class OfflineFirstRunRepository(
             createJobs.forEach { it.join() }
             deletedJobs.forEach { it.join() }
         }
+    }
+
+    override suspend fun logout(): EmptyResult<DataError.Network> {
+        val result = client.get<Unit>(
+            route = "/logout"
+        ).asEmptyDataResult()
+
+        // Clear previous tokens
+        client.plugin(Auth).providers.filterIsInstance<BearerAuthProvider>()
+            .firstOrNull()
+            ?.clearToken()
+
+        return result
     }
 }
