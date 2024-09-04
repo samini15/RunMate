@@ -1,11 +1,9 @@
-@file:OptIn(ExperimentalFoundationApi::class, ExperimentalLayoutApi::class)
+@file:OptIn(ExperimentalLayoutApi::class)
 
 package com.example.run.presentation.run_overview.components
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,8 +21,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -48,6 +44,7 @@ import coil.compose.SubcomposeAsyncImage
 import com.example.core.domain.location.Location
 import com.example.core.domain.run.Run
 import com.example.core.presentation.designsystem.CalendarIcon
+import com.example.core.presentation.designsystem.Dimensions
 import com.example.core.presentation.designsystem.LocalSpacing
 import com.example.core.presentation.designsystem.RunOutlinedIcon
 import com.example.core.presentation.designsystem.RunmateTheme
@@ -72,37 +69,72 @@ fun RunListItem(
         mutableStateOf(false)
     }
 
-    Box {
-        Column(
-            modifier = modifier
-                .clip(RoundedCornerShape(15.dp))
-                .background(MaterialTheme.colorScheme.surface)
-                .combinedClickable(
-                    onClick = { showDropDown = true },
-                    onLongClick = { }
-                )
-                .padding(spacing.spaceMedium),
-            verticalArrangement = Arrangement.spacedBy(spacing.spaceMedium)
-        ) {
-            MapImage(imageUrl = runUI.mapPictureUrl)
-            RunningTimeSection(modifier = Modifier.fillMaxWidth(), duration = runUI.duration)
-            HorizontalDivider(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f))
-            RunningDateSection(modifier = Modifier.fillMaxWidth(), dateTime = runUI.dateTime)
-            DataGrid(modifier = Modifier.fillMaxWidth(), runUI = runUI)
+    ExpandableCard(/*modifier = Modifier
+        .combinedClickable(
+               onClick = { },
+               //onLongClick = { showDropDown = true }
+        ),*/
+        collapsedContent = {
+            CollapsedContent(spacing = spacing, runUI = runUI)
+        },
+        expandedContent = {
+            ExpandedContent(spacing = spacing, runUI = runUI)
         }
+    )
+}
 
-        DropdownMenu(expanded = showDropDown, onDismissRequest = { showDropDown = false }) {
-            DropdownMenuItem(
-                text = {
-                    Text(text = "Delete")
-                },
-                onClick = {
-                    showDropDown = false
-                    onDeleteClick()
-                }
-            )
-        }
+@Composable
+private fun CollapsedContent(modifier: Modifier = Modifier, spacing: Dimensions, runUI: RunUI) {
+    Column(
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(spacing.spaceMedium),
+        verticalArrangement = Arrangement.spacedBy(spacing.spaceMedium)
+    ) {
+        RunningTimeSection(modifier = Modifier.fillMaxWidth(), duration = runUI.duration)
+        HorizontalDivider(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f))
+        RunningDateSection(modifier = Modifier.fillMaxWidth(), dateTime = runUI.dateTime)
     }
+
+    /*DropdownMenu(expanded = showDropDown, onDismissRequest = { showDropDown = false }) {
+        DropdownMenuItem(
+            text = {
+                Text(text = "Delete")
+            },
+            onClick = {
+                showDropDown = false
+                onDeleteClick()
+            }
+        )
+    }*/
+}
+
+@Composable
+private fun ExpandedContent(modifier: Modifier = Modifier, spacing: Dimensions, runUI: RunUI) {
+    Column(
+        modifier = modifier
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(spacing.spaceMedium),
+        verticalArrangement = Arrangement.spacedBy(spacing.spaceMedium)
+    ) {
+        MapImage(imageUrl = runUI.mapPictureUrl)
+        RunningTimeSection(modifier = Modifier.fillMaxWidth(), duration = runUI.duration)
+        HorizontalDivider(color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f))
+        RunningDateSection(modifier = Modifier.fillMaxWidth(), dateTime = runUI.dateTime)
+        DataGrid(modifier = Modifier.fillMaxWidth(), runUI = runUI)
+    }
+
+    /*DropdownMenu(expanded = showDropDown, onDismissRequest = { showDropDown = false }) {
+        DropdownMenuItem(
+            text = {
+                Text(text = "Delete")
+            },
+            onClick = {
+                showDropDown = false
+                onDeleteClick()
+            }
+        )
+    }*/
 }
 
 @Composable
