@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.size
@@ -112,7 +113,7 @@ fun TrackerMap(
         } else modifier,
         cameraPositionState = cameraPositionState,
         properties = MapProperties(
-            mapStyleOptions = mapStyle
+            mapStyleOptions = if (isSystemInDarkTheme()) mapStyle else null
         ),
         uiSettings = MapUiSettings(
             zoomControlsEnabled = false

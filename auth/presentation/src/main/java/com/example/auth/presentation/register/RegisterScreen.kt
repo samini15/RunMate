@@ -97,6 +97,7 @@ private fun RegisterScreen(
         ) {
             Text(
                 text = stringResource(id = R.string.create_account),
+                color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.headlineMedium
             )
 

@@ -93,6 +93,7 @@ private fun LoginScreen(
             Text(
                 text = stringResource(id = R.string.hi_there),
                 fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.headlineMedium
             )
 
